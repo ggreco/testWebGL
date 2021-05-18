@@ -1,0 +1,22 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+<body style="background: white;">
+    <h1>Electron vs AirPlay!</h1>
+    <p>
+        We are using node <script>document.write(process.versions.node)</script>,
+        Chrome <script>document.write(process.versions.chrome)</script>,
+        and Electron <script>document.write(process.versions.electron)</script>.
+    </p>
+    <h1>Canvas 1 (webgl)</h1>
+    <canvas id="glCanvas" width="320" height="240"></canvas>
+    <br/>
+    <input type="button" value="Copy" onclick="copyMe()" />
+    <h1>Canvas 2 (2d)</h1>
+    <canvas id="canvas2d" width="160" height="120"></canvas>
+    <script src="renderer.js"></script>
+</body>
+</html>
