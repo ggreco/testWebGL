@@ -8,7 +8,8 @@ app.whenReady().then(function() {
     height: 720,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
+      nativeWindowOpen: true
     }
   });
   // --- UNCOMMENT THIS IF YOU NEED TO DEBUG ---

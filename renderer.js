@@ -4,7 +4,6 @@ let inputCanvas = null, outputCanvas = null;
 let animationId;
 
 function startup() {
-  outputCanvas = document.getElementById("canvas2d");
   inputCanvas = document.getElementById("glCanvas");
   inputCanvas.addEventListener("webglcontextlost", (event) => {
     event.preventDefault();
@@ -21,9 +20,6 @@ function startup() {
 
 function main() {
   console.log("Initializing stuff!");
-  const ctx = outputCanvas.getContext("2d");
-  ctx.fillStyle = "yellow";
-  ctx.fillRect(0, 0, outputCanvas.width, outputCanvas.height);
   gl = inputCanvas.getContext("webgl", {preserveDrawingBuffer: true} );
   const fshader = gl.createShader(gl.FRAGMENT_SHADER);
   gl.shaderSource(fshader, 'void main(void) {gl_FragColor = vec4(1.0, 0, 0, 1.0);}');
@@ -48,10 +44,38 @@ function main() {
 
 window.onload = startup;
 
+function openWindow() {
+    if (window.presentationWindow) return;
+
+    window.presentationWindow = window.open("");
+
+    const w = inputCanvas.width;
+    const h = inputCanvas.height;
+    const hr = 100 * h / w;
+    window.presentationWindow.document.open();
+    window.presentationWindow.document.write(
+        `<html>
+            <head>
+                <title>Presentation</title>
+            </head>
+            <body style="margin:0;">
+                <div style="position:absolute;top:50%;left:50%;width:100vw;height:${hr}vw;max-width:100vw;max-height:${hr}vw;transform:translate(-50%,-50%)">
+                    <canvas id="outputCanvas" style="width:100%;height:100%"></canvas>
+                </div>
+            </body>
+        </html>`
+    );
+    window.presentationWindow.document.close();
+    outputCanvas = window.presentationWindow.document.getElementById("outputCanvas");
+}
+
 function copyMe() {
+  openWindow();
+
+  if (!outputCanvas) return console.error("Unable to find the output canvas!");
+
   const ctx = outputCanvas.getContext('2d');
   ctx.drawImage(inputCanvas, 0, 0, inputCanvas.width, inputCanvas.height, 0, 0, outputCanvas.width, outputCanvas.height);
-  console.log("Copied!");
 }
 
 let x = 0;
