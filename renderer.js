@@ -7,6 +7,7 @@ function startup() {
   outputCanvas = document.getElementById("canvas2d");
   inputCanvas = document.getElementById("glCanvas");
   inputCanvas.addEventListener("webglcontextlost", (event) => {
+    event.preventDefault();
     console.warn("WebGL context lost!");
     window.cancelAnimationFrame(animationId);
   });
@@ -19,7 +20,7 @@ function startup() {
 }
 
 function main() {
-
+  console.log("Initializing stuff!");
   const ctx = outputCanvas.getContext("2d");
   ctx.fillStyle = "yellow";
   ctx.fillRect(0, 0, outputCanvas.width, outputCanvas.height);
