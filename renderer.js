@@ -20,7 +20,7 @@ function startup() {
 
 function main() {
   console.log("Initializing stuff!");
-  gl = inputCanvas.getContext("webgl", {preserveDrawingBuffer: true} );
+  gl = inputCanvas.getContext("webgl", {preserveDrawingBuffer: true, stencil: true} );
   const fshader = gl.createShader(gl.FRAGMENT_SHADER);
   gl.shaderSource(fshader, 'void main(void) {gl_FragColor = vec4(1.0, 0, 0, 1.0);}');
   const vshader = gl.createShader(gl.VERTEX_SHADER); 
@@ -67,6 +67,21 @@ function openWindow() {
     );
     window.presentationWindow.document.close();
     outputCanvas = window.presentationWindow.document.getElementById("outputCanvas");
+
+    window.presentationWindow.addEventListener("keyup", event => {
+      console.log("Received keyup event", event.code);
+    });
+
+    window.presentationWindow.intv = setInterval(() => {
+      if (!window.presentationWindow)
+          return;
+
+      if (window.presentationWindow.closed) {
+          clearInterval(window.presentationWindow.intv);
+          window.presentationWindow = null;
+          outputCanvas = null;
+      }
+    }, 100);
 }
 
 function copyMe() {
